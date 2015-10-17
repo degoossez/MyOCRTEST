@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.lamerman.test">
+
+    <uses-sdk android:minSdkVersion="1" android:targetSdkVersion="1" />
+
+    <application>
+        <uses-library android:name="android.test.runner" />
+    </application>
+
+    <instrumentation android:name="android.test.InstrumentationTestRunner"
+        android:functionalTest="false" android:handleProfiling="false"
+        android:label="Tests for com.lamerman.test" android:targetPackage="com.lamerman.test" />
+</manifest>

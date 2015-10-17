@@ -1,11 +1,11 @@
 package com.example.dries.myocrtest;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -14,19 +14,24 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
 import com.googlecode.tesseract.android.TessBaseAPI;
-import com.lamerman.FileDialog;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     public int REQUEST_SAVE=1;
     public int REQUEST_LOAD=2;
     public String LOAD_PATH ="/sdcard/Pictures/Motivational Quote Wallpapers/wallpaper1.jpg";
+
+
+    /*
+     *RenderScript
+     */
+    RsScript RenderScriptObject;
+    /*
+    * END
+     */
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,26 +47,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         Log.v("OCR_DRIES","requestCode" + Integer.toString(requestCode));
-        if(requestCode==REQUEST_SAVE){
-            String filePath = data.getStringExtra(FileDialog.RESULT_PATH);
-            try{
-                File CodeFile =new File(filePath);
-//if file doesnt exists, then create it
-                if(!CodeFile.exists()) CodeFile.createNewFile();
-                FileWriter fileWritter = new FileWriter(CodeFile,true);
-                BufferedWriter bufferWritter = new BufferedWriter(fileWritter);
-                bufferWritter.write("Your new text.");
-                bufferWritter.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if(requestCode == REQUEST_LOAD)
-        {
-            String PathLoadFile = data.getStringExtra(FileDialog.RESULT_PATH);
-            LOAD_PATH = PathLoadFile;
-            Log.v("PATH_DRIES",PathLoadFile);
-        }
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -79,23 +64,10 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
         else if (id == R.id.action_selectFile) {
-            getPath();
+            //
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    private void getPath() {
-        Intent intent = new Intent(getBaseContext(), FileDialog.class);
-        intent.putExtra(FileDialog.START_PATH, "/storage/emulated/0/Pictures/");
-//can user select directories or not
-        intent.putExtra(FileDialog.CAN_SELECT_DIR, true);
-//alternatively you can set file filter
-        //Intent.putExtra(FileDialog.FORMAT_FILTER, new String[] { "png" ,"jpg"});
-
-        startActivityForResult(intent, REQUEST_LOAD);
-        Log.v("OCR_DRIES","EINDE");
-        return;
     }
 
     protected void ocr() {
@@ -106,7 +78,27 @@ public class MainActivity extends AppCompatActivity {
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 2;
 
+
         Bitmap bitmap = BitmapFactory.decodeFile(IMAGE_PATH, options);
+/*
+        RenderScriptObject = new RsScript(this,(ImageView)findViewById(R.id.imageView));
+        RenderScriptObject.setInputBitmap(bitmap);
+        bitmap=null;
+        //Bitmap outBitmap = Bitmap.createScaledBitmap(bitmap, bitmap.getWidth(), bitmap.getHeight(), false);
+        RenderScriptObject.RenderScriptInverse();
+        while(RenderScriptObject.Working==true) {
+            //wait
+        }
+        bitmap = RenderScriptObject.getOutputBitmap();
+        if(bitmap==null){
+            Log.v(LOG_TAG, "bitmap==null" );
+        }
+        else{
+            Log.v(LOG_TAG, "bitmap!=null" );
+
+        }
+*/
+
 
         try {
             ExifInterface exif = new ExifInterface(IMAGE_PATH);

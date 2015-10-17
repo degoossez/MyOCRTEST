@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger version="3"><dataSet config="main"><source path="C:\Users\Dries\AndroidDev\MyOCRTEST\tesstwo\src\main\res"/><source path="C:\Users\Dries\AndroidDev\MyOCRTEST\tesstwo\build\generated\res\rs\debug"/><source path="C:\Users\Dries\AndroidDev\MyOCRTEST\tesstwo\build\generated\res\resValues\debug"/></dataSet><dataSet config="debug"><source path="C:\Users\Dries\AndroidDev\MyOCRTEST\tesstwo\src\debug\res"/></dataSet><mergedItems/></merger>
